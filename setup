@@ -673,7 +673,7 @@ your download speed may be affected." 8 70
   if [ $? -eq 0 ]; then
     dialog --infobox "Updating pacman mirror list..." 3 50
     # Sort the 10 most recently synchronized HTTPS (USA) mirrors by download speed
-    sudo reflector --verbose -l 10 -f 15 --sort rate --country "US" -p http --save /etc/pacman.d/mirrorlist
+    reflector --latest 10 --country 'United States' --protocol https --protocol http --sort rate --save /etc/pacman.d/mirrorlist
   fi
 }
 
