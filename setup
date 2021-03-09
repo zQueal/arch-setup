@@ -5,7 +5,7 @@ init() {
   DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   source "$DIR"/etc/setup.conf
   clear ; setfont Lat2-Terminus16.psfu.gz
-  dialog --title "Welcome to Arch Linux Installer" \
+  dialog --title "Arch Linux Installer" \
     --ok-label "Begin Installation" --msgbox "Navigating the installer is \
 easy.\nYou may select options using the ARROW keys and SPACE or \
 ENTER.\nAlternate keys may also be used: '+', '-', and TAB." 7 70
@@ -185,7 +185,7 @@ set_timezone() {
 
   while true; do
     ZONE=$(dialog --title "Set the Time Zone" --nocancel \
-      --menu "Select your time zone.\nIf your region is not listed, select \
+      --default-item "America/New_York" --menu "Select your time zone.\nIf your region is not listed, select \
 'other'.\n\nTime zone:" 27 50 17 \
 "${regions[@]}" 3>&1 1>&2 2>&3)
 
@@ -250,7 +250,7 @@ instead.\n\nIf you are unsure, UTC time is the default." 8 85
 set_hostname() {
   while true; do
     HOST_NAME=$(dialog --title "Set the Hostname" --nocancel \
-      --inputbox "Please enter the hostname for this system.\n\nThe hostname \
+      --default-item "dev" --inputbox "Please enter the hostname for this system.\n\nThe hostname \
 is a single word that identifies your system to the network.\n\nHostname:" \
 12 80 "arch" 3>&1 1>&2 2>&3)
 
@@ -393,7 +393,7 @@ changes.\n\nDisk to partition:" 16 55 5 \
         fi
 
         FILE_SYSTEM=$(dialog --title "Set the Filesystem for $DISK_ROOT" \
-          --nocancel --menu "Select the type of filesystem to use for the \
+          --nocancel --default-item "ext4" --menu "Select the type of filesystem to use for the \
 specified device. If you are unsure, 'ext4' is the default.\n\nFilesystem \
 type:" 15 68 5 \
 "ext4" "Ext4 journaling filesystem" \
@@ -672,8 +672,8 @@ your download speed may be affected." 8 70
 
   if [ $? -eq 0 ]; then
     dialog --infobox "Updating pacman mirror list..." 3 50
-    # Sort the 50 most recently synchronized HTTPS mirrors by download speed
-    reflector --latest 50 --protocol https --sort rate --save /etc/pacman.d/mirrorlist
+    # Sort the 10 most recently synchronized HTTPS (USA) mirrors by download speed
+    reflector --latest 10 --country "United_States" --protocol https --sort rate --save /etc/pacman.d/mirrorlist
   fi
 }
 
